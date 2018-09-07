@@ -13,6 +13,7 @@ import CommentLabels from '../containers/CommentLabels';
 import ApproveButton from './ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 import CommentDeletedTombstone from './CommentDeletedTombstone';
+import { URL } from 'url';
 
 import t, { timeago } from 'coral-framework/services/i18n';
 
@@ -26,6 +27,12 @@ class UserDetailComment extends React.Component {
     this.props.comment.status === 'REJECTED'
       ? null
       : this.props.rejectComment({ commentId: this.props.comment.id });
+
+  contextUrl() {
+    const assetURL = new URL(this.props.comment.asset.url);
+    assetURL.searchParams.set('commentId', this.props.comment.id);
+    return assetURL.href;
+  }
 
   render() {
     const {
@@ -112,7 +119,7 @@ class UserDetailComment extends React.Component {
                 />
                 <a
                   className={styles.external}
-                  href={`${comment.asset.url}?commentId=${comment.id}`}
+                  href={this.contextUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -16,6 +16,7 @@ import RejectButton from 'coral-admin/src/components/RejectButton';
 import CommentDeletedTombstone from '../../../components/CommentDeletedTombstone';
 
 import t, { timeago } from 'coral-framework/services/i18n';
+import { URL } from 'url';
 
 class Comment extends React.Component {
   ref = null;
@@ -47,6 +48,12 @@ class Comment extends React.Component {
     if (!prev.selected && this.props.selected) {
       this.ref.focus();
     }
+  }
+
+  contextUrl() {
+    const assetURL = new URL(this.props.comment.asset.url);
+    assetURL.searchParams.set('commentId', this.props.comment.id);
+    return assetURL.href;
   }
 
   render() {
@@ -168,7 +175,7 @@ class Comment extends React.Component {
                 <div className={styles.commentContentFooter}>
                   <a
                     className={styles.external}
-                    href={`${comment.asset.url}?commentId=${comment.id}`}
+                    href={this.contextUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

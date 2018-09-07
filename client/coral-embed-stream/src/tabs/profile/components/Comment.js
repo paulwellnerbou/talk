@@ -7,10 +7,16 @@ import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import CommentContent from 'coral-framework/components/CommentContent';
 import cn from 'classnames';
 import { getTotalReactionsCount } from 'coral-framework/utils';
+// import { URL } from 'url';
 
 import t from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
+  // contextUrl() {
+  //   const assetURL = new URL(this.props.comment.asset.url);
+  //   assetURL.searchParams.set('commentId', this.props.comment.id);
+  //   return assetURL.href;
+  // }
   render() {
     const { comment, root } = this.props;
     const reactionCount = getTotalReactionsCount(comment.action_summaries);
@@ -79,9 +85,7 @@ class Comment extends React.Component {
             <li>
               <a
                 className={styles.viewLink}
-                href={`${this.props.comment.asset.url}?commentId=${
-                  this.props.comment.id
-                }`}
+                href={comment.url()}
                 target="_parent"
               >
                 <Icon name="open_in_new" className={styles.iconView} />
